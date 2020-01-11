@@ -1,5 +1,13 @@
 <template>
 	<view class="container">
+		<uni-nav-bar class="navber" title="购物车"  fixed backgroundColor="#0db983" color="#fff" :height="height" :top="top" @clickLeft="black">
+			<!-- #ifndef MP -->
+			<view slot="right" class="rightIcon">
+				<text @click="isEdit =! isEdit">{{isEdit?'完成':'管理'}}</text>
+			</view>
+			<!-- #endif -->
+		</uni-nav-bar>
+		
 		<!-- 空白页 -->
 		<view v-if="empty===true" class="empty">
 			<view class="empty-tips">
@@ -22,7 +30,7 @@
 							</image>
 						</view>
 						<view class="item-right">
-							<text class="clamp title">{{item.title}}</text>
+							<text class="clamp title" @click="Navto('/pages/Category/CategoryDetaile')">{{item.title}}</text>
 							<text :class="item.level===1?'attr attr-blue':'attr attr-red'">{{item.attr_val}}</text>
 							<view class="price">
 								<text class="value">
@@ -68,7 +76,9 @@
 				</block>
 				
 				<view class="editbox" v-else>
+					<!-- #ifdef MP -->
 					<button type="default" plain="true" class="no-border confirm-btn btnok" @click="isEdit=false">完成</button>
+					<!-- #endif -->
 					<button type="primary" class="no-border confirm-btn collect-btn" @click="goodCollect">移入我的收藏</button>
 					<button type="primary" class="no-border confirm-btn del-btn" @click="goodDetail">删除</button>
 				</view>
@@ -79,13 +89,18 @@
 </template>
 
 <script>
+	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
+	import luBarTabNav from "@/components/lu-bar-tab-nav/lu-bar-tab-nav.vue";
 	import uniNumberBox from '@/components/uni-number-box.vue'
 	export default {
 		components:{
-			uniNumberBox
+			uniNumberBox,uniNavBar,luBarTabNav
 		},
 		data() {
 			return {
+				visible:false,
+				height: 64, //header高度
+				top: 0, //标题图标距离顶部距离
 				isEdit:false,//管理 true|false
 				total: 0, //总价格
 				allChecked: false, //全选状态  true|false
@@ -118,11 +133,34 @@
 				}],
 			};
 		},
-		onLoad(){
+		async onLoad(options){
+			let obj = {};
+			// #ifdef MP-WEIXIN
+			obj = wx.getMenuButtonBoundingClientRect();
+			// #endif
+			// #ifdef MP-BAIDU
+			obj = swan.getMenuButtonBoundingClientRect();
+			// #endif
+			// #ifdef MP-ALIPAY
+			my.hideAddToDesktopMenu();
+			// #endif
+			setTimeout(() => {
+				uni.getSystemInfo({
+					success: (res) => {
+						this.height = obj.top ? (obj.top + obj.height + 8) : (res.statusBarHeight + 44);
+						this.top = obj.top ? (obj.top + (obj.height - 32) / 2) : (res.statusBarHeight);
+					}
+				})
+			}, 50)
 		},
 		watch:{
 		},
 		methods: {
+			Navto(url){
+				uni.navigateTo({
+					url
+				})
+			},
 			//数量
 			numberChange(data){
 				this.cartList[data.index].number = data.number;
@@ -183,14 +221,20 @@
 			onNavigationBarButtonTap(e) {
 				const index = e.index;
 				if (index === 0) {
-					this.isEdit = true
+					this.isEdit =! this.isEdit 
 					// #ifdef APP-PLUS
 					const pages = getCurrentPages();
 					const page = pages[pages.length - 1];
 					const currentWebview = page.$getAppWebview();
-					currentWebview.setTitleNViewButtonStyle(0, {  
-					    text: '完成',  
-					}); 
+					if(this.isEdit){
+						currentWebview.setTitleNViewButtonStyle(0, {
+						    text: '完成',  
+						}); 
+					}else{
+						currentWebview.setTitleNViewButtonStyle(0, {
+						    text: '管理',  
+						}); 
+					}
 					// #endif
 				}
 			},
@@ -242,9 +286,35 @@
 	}
 </script>
 
-<style lang='less'>
+<style lang='less' scoped>
+	/deep/ .uni-navbar__header-btns-left{
+		width: 280upx !important;
+	}
 	page{
 		background-color: #f7f8fa;
+	}
+	.nav-item{
+		float: left;
+		font-size: 32upx;
+		color: #b7e9d9;
+		padding: 0 25upx;
+		&:first-child{
+			padding-left: 0;
+		}
+		&.active{
+			color: #FFFFFF;
+		}
+	}
+	.rightIcon{
+		image{
+			width: 45upx;
+			height: 45upx;
+			float: left;
+			padding-right: 20upx;
+			&:last-child{
+				padding-right: 0;
+			}
+		}
 	}
 	.container{
 		padding-bottom: 134upx;

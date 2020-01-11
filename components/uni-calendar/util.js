@@ -41,6 +41,9 @@ class Calendar {
 		}
 		const dd = new Date(date)
 		switch (str) {
+			case 'current':
+				dd.setMonth(AddDayCount) // 获取当前月份的日期
+				break
 			case 'day':
 				dd.setDate(dd.getDate() + AddDayCount) // 获取AddDayCount天后的日期
 				break

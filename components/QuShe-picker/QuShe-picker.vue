@@ -868,6 +868,9 @@
 	}
 	.width250rpx{
 		width: 250rpx;
+		line-height: 50upx;
+		height: 50upx;
+		font-size: 32upx;
 	}
 	.height100 {
 		height: 100%;
@@ -875,7 +878,7 @@
 	
 	/* padding */
 	.padding20rpx{
-		padding: 20rpx;
+		padding: 20upx;
 	}
 	
 	view, block, botton, text, picker, picker-view picker-view-column {

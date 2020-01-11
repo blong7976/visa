@@ -1,17 +1,19 @@
 <template>
 	<view class="container">
-		<!-- #ifdef MP -->
-		<view class="tui-header-box" :style="{height:height+'px',background:'rgba(255,255,255,'+opcity+')'}">
-			<view class="tui-header" :style="{paddingTop:top+'px', opacity:opcity}">
-				{{currentPageName}}
+		<uni-nav-bar class="navber" left-icon="back"  fixed backgroundColor="#0db983" color="#fff" :height="height" :top="top" @clickLeft="black">
+			<view slot="left" v-if="visible">
+				<view class="nav-item active">
+					{{currentPageName}}
+				</view>
 			</view>
-			<view class="tui-header-icon" :style="{marginTop:top+'px'}">
-				<view class="tui-icon tui-icon-arrowleft tui-icon-back" :style="{color:opcity>=1?'#000':'#fff',background:'rgba(0, 0, 0,'+iconOpcity+')'}"
-				 @tap="back"></view>
+			<!-- #ifndef MP -->
+			<view slot="right" class="rightIcon">
+				<image src="../../static/image/icon_phone_s.png" mode=""></image>
+				<image src="../../static/image/icon_service20.png" mode=""></image>
+				<image src="../../static/image/icon_share20.png" mode=""></image>
 			</view>
-		</view>
-		<!-- #endif -->
-		
+			<!-- #endif -->
+		</uni-nav-bar>
 		
 		<!-- 头部背景 -->
 		<view class="carousel-section">
@@ -130,13 +132,16 @@
 </template>
 
 <script>
+	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
+	import luBarTabNav from "@/components/lu-bar-tab-nav/lu-bar-tab-nav.vue";
 	import QSpicker from '@/components/QuShe-picker/QuShe-picker.vue';
 	export default {
 		components: {
-			QSpicker
+			QSpicker,uniNavBar,luBarTabNav
 		},
 		data(){
 			return {
+				visible:false,
 				currentPageName:''||'热门签证',
 				height: 64, //header高度
 				top: 0, //标题图标距离顶部距离
@@ -155,7 +160,7 @@
 			}
 		},
 		async onLoad(options){
-			//接收传值,id里面放的是标题
+			// 	//接收传值,id里面放的是标题
 			let id = options.id;
 			this.currentPageName = id
 			let obj = {};
@@ -171,10 +176,8 @@
 			setTimeout(() => {
 				uni.getSystemInfo({
 					success: (res) => {
-						this.width = obj.left || res.windowWidth;
 						this.height = obj.top ? (obj.top + obj.height + 8) : (res.statusBarHeight + 44);
-						this.top = obj.top ? (obj.top + (obj.height - 32) / 2) : (res.statusBarHeight + 6);
-						this.scrollH = res.windowWidth
+						this.top = obj.top ? (obj.top + (obj.height - 32) / 2) : (res.statusBarHeight);
 					}
 				})
 			}, 50)
@@ -221,8 +224,18 @@
 					url
 				})  
 			},
-			back: function() {
-				uni.navigateBack()
+			onPageScroll(e) {
+				this.$nextTick(function(){
+					this.scrollTop = e.scrollTop
+					if(this.scrollTop > 100){
+						this.visible=true
+					}else{
+						this.visible=false
+					}
+				})
+			},
+			black(){
+				uni.navigateBack();
 			},
 			handleCurrentPage(index){
 				this.currentPage = index
@@ -280,6 +293,29 @@
 
 <style lang="less">
 	@import "../../static/icon.css";
+	.nav-item{
+		float: left;
+		font-size: 32upx;
+		color: #b7e9d9;
+		padding: 0 25upx;
+		&:first-child{
+			padding-left: 0;
+		}
+		&.active{
+			color: #FFFFFF;
+		}
+	}
+	.rightIcon{
+		image{
+			width: 45upx;
+			height: 45upx;
+			float: left;
+			padding-right: 20upx;
+			&:last-child{
+				padding-right: 0;
+			}
+		}
+	}
 	uni-page-wrapper{
 		background-color: #fff;
 	}
@@ -327,12 +363,8 @@
 		/* 头部 背景图 */
 		.carousel-section {
 			position: relative;
-			padding: 110upx 50upx 0;
-			height: 320upx;
-			// #ifdef MP
-			padding: 200upx 50upx 0;
-			height: 460upx;
-			// #endif
+			padding: 32upx 50upx 0;
+			height: 240upx;
 			box-sizing: border-box;
 			.titleNview-background {
 				position: absolute;

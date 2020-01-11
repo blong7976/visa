@@ -11,14 +11,18 @@
 				</view>
 			</view>
 			<view class="uni-calendar__header">
-				<view class="uni-calendar__header-btn-box" @click="pre">
+			<!-- 	<view class="uni-calendar__header-btn-box" @click="pre">
 					<view class="uni-calendar__header-btn uni-calendar--left"></view>
-				</view>
-				<text class="uni-calendar__header-text">{{ (nowDate.year||'') +'年'+( nowDate.month||'') +'月'}}</text>
-				<view class="uni-calendar__header-btn-box" @click="next">
+				</view> -->
+				<scroll-view class="calenHead" scroll-x >
+					<view :class="currentIndex == index?'headItem active':'headItem'" v-for="(i,index) in monthNavlength" :key="i" 
+						@click="headItemTap(currentmonth+i)">{{ (nowDate.year||'') +'年'+( currentmonth+i||'') +'月'}}
+					</view>
+				</scroll-view>
+				<!-- <view class="uni-calendar__header-btn-box" @click="next">
 					<view class="uni-calendar__header-btn uni-calendar--right"></view>
 				</view>
-				<text v-if="hasbacktoday" class="uni-calendar__backtoday" @click="backtoday">回到今天</text>
+				<text v-if="hasbacktoday" class="uni-calendar__backtoday" @click="backtoday">回到今天</text> -->
 			</view>
 			<view class="uni-calendar__box">
 				<view v-if="showMonth" class="uni-calendar__box-bg">
@@ -129,7 +133,7 @@
 			showMonth: {
 				type: Boolean,
 				default: true
-			}
+			},
 		},
 		data() {
 			return {
@@ -137,7 +141,17 @@
 				weeks: [],
 				calendar: {},
 				nowDate: '',
-				aniMaskShow: false
+				aniMaskShow: false,
+				/**
+				 * monthNavlength: 4 ,
+				 * 说明：
+				 * 日历默认显示几个月份,
+				 * 默认第一个是当前月份,
+				 * 可点击更新月份数据,
+				 */
+				monthNavlength:4, 
+				currentmonth:'',
+				currentIndex:0,
 			}
 		},
 		watch: {
@@ -162,6 +176,7 @@
 			clean() {},
 			init(date) {
 				this.weeks = this.cale.weeks
+				this.currentmonth = new Date().getMonth()
 				this.nowDate = this.calendar = this.cale.getInfo(date)
 			},
 			open() {
@@ -235,10 +250,15 @@
 				const preDate = this.cale.getDate(this.nowDate.fullDate, -1, 'month').fullDate
 				this.setDate(preDate)
 				this.monthSwitch()
-
 			},
 			next() {
 				const nextDate = this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate
+				this.setDate(nextDate)
+				this.monthSwitch()
+			},
+			headItemTap(index) {
+				const nextDate = this.cale.getDate(this.nowDate.fullDate, index-1, 'current').fullDate
+				this.currentIndex = index-1
 				this.setDate(nextDate)
 				this.monthSwitch()
 			},
@@ -437,5 +457,34 @@
 		/* #ifndef APP-NVUE */
 		line-height: 1;
 		/* #endif */
+	}
+	.calenHead{
+		display: flex;
+		align-items: flex-start;
+		white-space: nowrap;
+		.headItem{
+			display: inline-block;
+			flex-shrink: 0;
+			width: 210upx;
+			height: 70upx;
+			text-align: center;
+			line-height: 70upx;
+			position: relative;
+			font-size: 28upx;
+			&.active{
+				color: #0DB983;
+				&:before{
+					content: "";
+					width: 30upx;
+					height: 2px;
+					background: #0DB983;
+					display: block;
+					position: absolute;
+					bottom: 0;
+					left: 50%;
+					margin-left: -15upx;
+				}
+			}
+		}
 	}
 </style>

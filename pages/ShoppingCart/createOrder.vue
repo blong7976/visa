@@ -1,6 +1,6 @@
 <template>
 	<view class="content">
-		<view class="address">
+		<view class="address" @click="navTo('/pages/address/address')">
 			<view class="list b-b">
 				<view class="wrapper">
 					<view class="u-box">
@@ -19,7 +19,7 @@
 		
 		<view class="playType">
 			<text>支付方式</text>
-			<view class="right" @click="playTypeModalShow=true">
+			<view class="right" @click="dblplayTypeModalShow">
 				<block v-if="playType==0">
 					<image src="../../static/image/icon_balance.png" mode="aspectFit"></image>余额支付
 				</block>
@@ -96,14 +96,15 @@
 			<view class="tui-flex-end">
 				合计<text>187.88</text>
 			</view>
-			<view class="btn" @click="navTo('/pages/ShoppingCart/orderDetaile')">
+			<!-- @click="navTo('/pages/ShoppingCart/orderDetaile')" -->
+			<view class="btn" @click="submitOrder">
 				提交订单
 			</view>
 		</view>
 		
 		
 		<!-- 支付方式 -->
-		<view class="modal share" v-if="playTypeModalShow">
+		<!-- <view class="modal share" v-if="playTypeModalShow">
 			<view class="modal-dialog ">
 				<view class="modal-content">
 					<view class="modal-header">
@@ -146,16 +147,115 @@
 					</view>
 				</view>		
 			</view>
-		</view>
+		</view> -->
+		
+		<!-- 支付方式 -->
+		<view class="modal share" v-if="playTypeModalShow">
+			<view class="modal-dialog ">
+				<view class="modal-content">
+					<view class="modal-header">
+						支付方式
+						<image src="../../static/image/icon_close.png" mode="aspectFit" class="close" @click="playTypeModalShow = false"></image>
+					</view>
+					<view class="modal-body">
+						<view class="sharelist" style="padding-bottom: 292upx;">
+							<view class="item" @click="selectplayType(0)">
+								<view class="left">
+									<image src="../../static/image/icon_balance.png" mode="aspectFit"></image>余额支付
+									<text class="lb">(￥2986000)</text>
+								</view>
+								<view class="right">
+									<image v-if="playType==0" src="../../static/image/icon_radio_press.png" mode="aspectFit"></image>
+									<image v-else src="../../static/image/icon_radio.png" mode="aspectFit"></image>
+								</view>
+							</view>
+							<view class="item" @click="selectplayType(1)">
+								<view class="left">
+									<image src="../../static/image/icon_wechatpay.png" mode="aspectFit"></image>微信支付
+									<text class="lb"></text>
+								</view>
+								<view class="right">
+									<image v-if="playType==1" src="../../static/image/icon_radio_press.png" mode="aspectFit"></image>
+									<image v-else src="../../static/image/icon_radio.png" mode="aspectFit"></image>
+								</view>
+							</view>
+							<view class="item" @click="selectplayType(2)">
+								<view class="left">
+									<image src="../../static/image/icon_alipay.png" mode="aspectFit"></image>支付宝支付
+									<text class="lb"></text>
+								</view>
+								<view class="right">
+									<image v-if="playType==2" src="../../static/image/icon_radio_press.png" mode="aspectFit"></image>
+									<image v-else src="../../static/image/icon_radio.png" mode="aspectFit"></image>
+								</view>
+							</view>
+						</view>
+					</view>
+				</view>		
+			</view>
+		</view>		
+				
+				
+		<!-- 余额支付 确认支付 -->
+		<view class="modal share" v-if="balanceModalShow">
+			<view class="modal-dialog ">
+				<view class="modal-content">
+					<view class="modal-header">
+						确认付款
+						<image src="../../static/image/icon_close.png" mode="aspectFit" class="close" @click="balanceModalShow = false"></image>
+					</view>
+					<view class="modal-body balance">
+						<view class="price">
+							<text>600.00</text>
+						</view>
+						<view class="sharelist">
+							<view class="item" >
+								<view class="right">
+									支付方式
+								</view>
+								<view class="left" @click="handleSelectplayType">
+									<image src="../../static/image/icon_balance.png" mode="aspectFit"></image>余额支付
+									<text class="lb">(￥2986000)</text>
+								</view>
+							</view>
+						</view>	
+						<view class="btn" @click="balancePlay">
+							支付
+						</view>
+					</view>
+				</view>		
+			</view>
+		</view>		
+		
+		
+		<!-- 余额支付 -> 确认支付 -> 支付密码 -->
+		<view class="modal share" v-if="balancePSDModalShow">
+			<view class="modal-dialog ">
+				<view class="modal-content">
+					<view class="modal-header">
+						请输入支付密码
+						<image src="../../static/image/icon_close.png" mode="aspectFit" class="close" @click="balancePSDModalShow = false"></image>
+					</view>
+					<view class="modal-body balancepassword">
+						<wakary-input type="box" :maxlength='6'></wakary-input>
+						<view class="msg" @click="navTo('/pages/login/Retrievepassword')">
+							忘记密码？
+						</view>
+					</view>
+				</view>		
+			</view>
+		</view>		
+		
 		
 	</view>
 </template>
 
 <script>
 	import uniNumberBox from '@/components/uni-number-box.vue'
+	import wakaryInput from '@/components/wakary-input/wakary-input.vue'
 	export default{
 		components:{
-			uniNumberBox
+			uniNumberBox,wakaryInput
 		},
 		data(){
 			return{
@@ -163,8 +263,11 @@
 					number:1,
 					deduction:0
 				},
+				currenttap:true,
 				playTypeModalShow:false,
-				playType:0
+				playType:0,
+				balanceModalShow:false,
+				balancePSDModalShow:false
 			}
 		},
 		methods:{
@@ -176,9 +279,30 @@
 			numberChange(e){
 				this.info.number = e
 			},
+			dblplayTypeModalShow(){
+				this.currenttap = false
+				this.playTypeModalShow = true
+			},
 			selectplayType(e){
 				this.playType = e
-				this.playTypeModalShow = false
+				if(this.currenttap){
+					this.playTypeModalShow = false
+					this.balanceModalShow = true
+				}else{
+					this.playTypeModalShow = false
+				}
+			},
+			handleSelectplayType(){
+				this.playTypeModalShow = true
+				this.balanceModalShow = false
+			},	
+			balancePlay(){
+				this.balanceModalShow = false
+				this.balancePSDModalShow = true
+			},
+			submitOrder(){
+				this.currenttap = true
+				this.playTypeModalShow = true
 			}
 		}
 	}
@@ -612,6 +736,45 @@
 					}
 				}
 			}
+		}
+	}
+	
+	.balance{
+		padding-bottom: 100upx !important;
+		.price{
+			font-size: 60upx;
+			text-align: center;
+			padding: 60upx 0;
+			text{
+				&:before{
+					content: "￥";
+					font-size: 28upx;
+				}
+			}
+		}
+		.sharelist{
+			padding: 0;
+			.right{
+				text-align: left !important;
+				font-size: 28upx;
+				color: #999999;
+			}
+		}
+		.btn{
+			height: 85upx;
+			line-height: 85upx;
+			background: #0DB983;
+			font-size: 28upx;
+			color: #FFFFFF;
+			border-radius: 42.5upx;
+			text-align: center;
+			margin-top: 30upx;
+		}
+	}
+	.balancepassword{
+		padding: 100upx 0 !important;
+		.msg{
+			color: #2e8ae5 !important;
 		}
 	}
 </style>

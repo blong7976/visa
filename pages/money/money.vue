@@ -17,8 +17,9 @@
 		<view class="cover-container">
 			<view class="tj-sction">
 				<view class="item">
-					<view class="title" @click="navTo('/pages/money/bonus')">
-						奖励金 > <image src="../../static/image/icon_help.png" mode=""></image>
+					<view class="title" >
+						<text @click="navTo('/pages/money/bonus')">奖励金</text> > 
+						<image src="../../static/image/icon_help.png" mode="aspectFit" @click="newVersion=true"></image>
 					</view>
 					<view class="content">
 						115,85
@@ -67,7 +68,7 @@
 	export default{
 		data(){
 			return{
-				newVersion:true
+				newVersion:false
 			}
 		},
 		methods:{

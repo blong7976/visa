@@ -185,9 +185,6 @@
 		padding: 0 6px;
 		justify-content: center;
 		align-items: center;
-		/* #ifdef MP */
-		flex: 1;
-		/* #endif */
 	}
 
 	.uni-navbar__header-btns-left {

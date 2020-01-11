@@ -67,44 +67,50 @@
 		},{
 			"path": "pages/Category/Countries",
 			"style": {
-				"navigationBarTitleText": "热门签证",
-				// #ifdef MP
-				"navigationStyle": "custom",
-				// #endif
+				"navigationBarTitleText": "",
 				"navigationBarBackgroundColor":"#0db983",
 				"navigationBarTextStyle":"white",
-				"app-plus": {
-					"titleNView": {
-						"type": "transparent",
-						"buttons": [
-							{
-								"fontSrc": "/static/iconfont.ttf",
-								"text": "\ue61a",
-								"fontSize": "20",
-								"width": "36px",
-								"color": "#303133",
-								"float": "right"
-							},
-							{
-								"fontSrc": "/static/iconfont.ttf",
-								"text": "\ue624",
-								"fontSize": "22",
-								"color": "#14bb86",
-								"width": "36px",
-								"float": "right"
-							},
-							{
-								"fontSrc": "/static/iconfont.ttf",
-								"text": "\ue601",
-								"fontSize": "22",
-								"color": "#14bb86",
-								"width": "36px",
-								"float": "right"
-							}
-						]
-					}
-				}
+				"navigationStyle": "custom"
 			}
+			// "style": {
+			// 	"navigationBarTitleText": "热门签证",
+			// 	// #ifdef MP
+			// 	"navigationStyle": "custom",
+			// 	// #endif
+			// 	"navigationBarBackgroundColor":"#0db983",
+			// 	"navigationBarTextStyle":"white",
+			// 	"app-plus": {
+			// 		"titleNView": {
+			// 			"type": "transparent",
+			// 			"buttons": [
+			// 				{
+			// 					"fontSrc": "/static/iconfont.ttf",
+			// 					"text": "\ue61a",
+			// 					"fontSize": "20",
+			// 					"width": "36px",
+			// 					"color": "#303133",
+			// 					"float": "right"
+			// 				},
+			// 				{
+			// 					"fontSrc": "/static/iconfont.ttf",
+			// 					"text": "\ue624",
+			// 					"fontSize": "22",
+			// 					"color": "#14bb86",
+			// 					"width": "36px",
+			// 					"float": "right"
+			// 				},
+			// 				{
+			// 					"fontSrc": "/static/iconfont.ttf",
+			// 					"text": "\ue601",
+			// 					"fontSize": "22",
+			// 					"color": "#14bb86",
+			// 					"width": "36px",
+			// 					"float": "right"
+			// 				}
+			// 			]
+			// 		}
+			// 	}
+			// }
 		},{
 			"path": "pages/CustomerService/CustomerService",
 			"style": {
@@ -115,23 +121,29 @@
 		},{
 			"path": "pages/ShoppingCart/ShoppingCart",
 			"style": {
-				"navigationBarTitleText": "购物车",
+				"navigationBarTitleText": "",
 				"navigationBarBackgroundColor":"#0db983",
 				"navigationBarTextStyle":"white",
-				"app-plus": {
-					"titleNView": {
-						"type": "default",
-						"buttons":[
-							{
-								"text":"管理",
-								"color": "#FFFFFF",
-								"float": "right",
-								"fontSize":"14"
-							}
-						]
-					}
-				}
+				"navigationStyle": "custom"
 			}
+			// "style": {
+			// 	"navigationBarTitleText": "购物车",
+			// 	"navigationBarBackgroundColor":"#0db983",
+			// 	"navigationBarTextStyle":"white",
+			// 	"app-plus": {
+			// 		"titleNView": {
+			// 			"type": "default",
+			// 			"buttons":[
+			// 				{
+			// 					"text":"管理",
+			// 					"color": "#FFFFFF",
+			// 					"float": "right",
+			// 					"fontSize":"14"
+			// 				}
+			// 			]
+			// 		}
+			// 	}
+			// }
 		},{
 			"path": "pages/me/me",
 			"style": {

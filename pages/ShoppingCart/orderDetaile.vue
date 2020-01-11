@@ -160,7 +160,7 @@
 				</view>
 			</view>
 			<view class="body">
-				<view class="goods-item" >
+				<view class="goods-item" @click="navTo('/pages/Category/CategoryDetaile')">
 					<view class="wrapper">
 						<view class="u-box">
 							<text class="name">日本一个月单次旅游签证</text>

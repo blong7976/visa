@@ -29,7 +29,10 @@
 								<text class="state" v-if="item.state==3">退款成功</text>
 								<text class="state" v-if="item.state==4">已取消</text>
 							</view>
-							<view class="body" @click="navTo(`/pages/ShoppingCart/order?type=${item.state}`)">
+							 <!-- 
+							  订单支付后的页面 @click="navTo(`/pages/ShoppingCart/order?type=${item.state}`)"
+							  -->
+							<view class="body" @click="navTo('/pages/ShoppingCart/orderDetaile')">
 								<view class="h1">
 									<text class="name">日本一个月单次旅游签证</text>
 									<text class="price">100</text>
@@ -57,7 +60,7 @@
 								<view class="btn attr-blue" v-if="item.state==0">提交资料</view>
 								
 								<view class="btn" v-if="item.state==1">取消订单</view>
-								<view class="btn attr-blue" v-if="item.state==1" @click="playTypeModalShow=true">付款</view>
+								<view class="btn attr-blue" v-if="item.state==1" @click="balanceModalShow=true">付款</view>
 								
 								<view class="btn" v-if="item.state==2">评价</view>
 								<view class="btn" v-if="item.state==2">申请开票</view>
@@ -112,7 +115,7 @@
 						<image src="../../static/image/icon_close.png" mode="aspectFit" class="close" @click="playTypeModalShow = false"></image>
 					</view>
 					<view class="modal-body">
-						<view class="sharelist">
+						<view class="sharelist" style="padding-bottom: 292upx;">
 							<view class="item" @click="selectplayType(0)">
 								<view class="left">
 									<image src="../../static/image/icon_balance.png" mode="aspectFit"></image>余额支付
@@ -167,7 +170,7 @@
 								<view class="right">
 									支付方式
 								</view>
-								<view class="left">
+								<view class="left" @click="handleSelectplayType">
 									<image src="../../static/image/icon_balance.png" mode="aspectFit"></image>余额支付
 									<text class="lb">(￥2986000)</text>
 								</view>
@@ -234,7 +237,7 @@
 				 * 2：另纸签 
 				 * **/
 				orderlist:[
-					{state:2,laber:0,move:false},{state:1,laber:1,move:false},{state:2,laber:0,move:false},{state:3,laber:0,move:false},{state:4,laber:2,move:false}
+					{state:0,laber:0,move:false},{state:2,laber:0,move:false},{state:1,laber:1,move:false},{state:2,laber:0,move:false},{state:3,laber:0,move:false},{state:4,laber:2,move:false}
 				],
 				
 				playTypeModalShow:false,
@@ -356,20 +359,13 @@
 			},
 			selectplayType(e){
 				this.playType = e
-				if(e==0){
-					this.playTypeModalShow = false
-					this.balanceModalShow = true
-				}else{
-					let title = e==1?'跳转微信支付':e==2?'跳转支付宝支付':''
-					uni.showToast({
-					    title,
-						icon:'none',
-					    duration: 2000
-					});
-					this.playTypeModalShow = false
-				}
+				this.playTypeModalShow = false
+				this.balanceModalShow = true
 			},
-			
+			handleSelectplayType(){
+				this.playTypeModalShow = true
+				this.balanceModalShow = false
+			},	
 			balancePlay(){
 				this.balanceModalShow = false
 				this.balancePSDModalShow = true

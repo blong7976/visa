@@ -2,7 +2,7 @@
 	<view class="content">
 		<uni-nav-bar class="navber" left-icon="back"  fixed backgroundColor="#0db983" color="#fff" :height="height" :top="top" @clickLeft="black">
 			<view slot="left" v-if="visible">
-				<view class="nav-item active" v-for="(item,index) in navs" :key="item" @click="Locateto(index)">
+				<view :class="currentIndex==index?'nav-item active':'nav-item'" v-for="(item,index) in navs" :key="item" @click="Locateto(index)">
 					{{item}}
 				</view>
 			</view>
@@ -15,7 +15,7 @@
 			<!-- #endif -->
 		</uni-nav-bar>
 		
-		<scroll-view class="page-content" id="luTabStatic">
+		<scroll-view class="page-content" id="luTabStatic" @scroll="handleScroll">
 			<view class="tabbody" id="item0" >
 				<image src="../../static/image/moneybg.png" mode="" class="bgImg"></image>
 				<view class="flex-box">
@@ -166,10 +166,11 @@
 			</view>
 		</scroll-view>
 		<view class="flex-box-bottom">
-			<view class="btn" >立即购买</view>
+			<view class="btn" @click="navSWTo('/pages/ShoppingCart/ShoppingCart')">加入购物车</view>
+			<view class="btn" @click="navTo('/pages/ShoppingCart/createOrder')">立即购买</view>
 		</view>
 	</view>
-</template>
+</template>/
 
 <script>
 	import uniNavBar from "@/components/uni-nav-bar/uni-nav-bar.vue"
@@ -183,6 +184,7 @@
 				visible:false,
 				scrollTop:0,
 				navs:["商品","流程","资料","须知"],
+				currentIndex:0,
 				nodes:[],
 				post:["在职人员","自由职业","退休人员","学生","学龄前儿童"],
 				contentpage:0,
@@ -228,13 +230,25 @@
 					url
 				})  
 			}, 
+			navSWTo(url){
+				uni.switchTab({
+					url
+				})
+			},
 			onPageScroll(e) {
-				this.scrollTop = e.scrollTop
-				if(this.scrollTop > 100){
-					this.visible=true
-				}else{
-					this.visible=false
-				}
+				this.$nextTick(function(){
+					this.scrollTop = e.scrollTop
+					if(this.scrollTop > 100){
+						this.visible=true
+					}else{
+						this.visible=false
+					}
+					this.nodes.forEach((item,index)=>{
+						if(this.scrollTop+300>item){
+							this.currentIndex = index
+						}
+					})
+				})
 			},
 			black(){
 				uni.navigateBack();
@@ -251,6 +265,7 @@
 				this.nodes = list
 			},
 			Locateto(i){
+				// this.currentIndex = i
 				let scrollTop= 0
 				this.nodes.slice(0,i).map((item,index)=>{
 					scrollTop+=item
@@ -279,7 +294,7 @@
 					})
 					this.allshow =true
 				}
-			}
+			},
 		}	
 	}
 </script>
@@ -650,15 +665,22 @@
 		padding: 10upx 45upx;
 		background: #FFFFFF;
 		z-index: 99;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
 		.btn{
 			height: 84upx;
 			line-height: 84upx;
 			border-radius: 42upx;
 			text-align: center;
 			font-size: 32upx;
-			width: 100%;
+			flex: 1;
 			background:#ff7f66;
 			color: #fff;
+			&:first-child{
+				margin-right: 40upx;
+				background: #f7b34b;
+			}
 		}
 	}
 	
