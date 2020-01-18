@@ -285,7 +285,7 @@
 		},{
 			"path": "pages/money/withdrawal",
 			"style": {
-				"navigationBarTitleText": "提现",
+				"navigationBarTitleText": "奖励金提现",
 				"navigationBarBackgroundColor":"#0db983",
 				"navigationBarTextStyle":"white"
 			}
@@ -444,7 +444,7 @@
 		},{
 			"path": "pages/ShoppingCart/createOrder",
 			"style": {
-				"navigationBarTitleText": "创建订单",
+				"navigationBarTitleText": "填写订单",
 				"navigationBarBackgroundColor":"#0db983",
 				"navigationBarTextStyle":"white"
 			}
@@ -476,6 +476,69 @@
 			"path": "pages/ShoppingCart/order",
 			"style": {
 				"navigationBarTitleText": "订单详情",
+				"navigationBarBackgroundColor":"#0db983",
+				"navigationBarTextStyle":"white"
+			}
+		},{
+			"path": "pages/money/nopaypd", //没有支付密码页面
+			"style": {
+				"navigationBarTitleText": "奖励金提现",
+				"navigationBarBackgroundColor":"#0db983",
+				"navigationBarTextStyle":"white"
+			}
+		},{
+			"path": "pages/money/wdSuccess", //提现成功页面
+			"style": {
+				"navigationBarTitleText": "奖励金提现",
+				"navigationBarBackgroundColor":"#0db983",
+				"navigationBarTextStyle":"white"
+			}
+		},{
+			"path": "pages/money/BankcardCode", //添加银行卡身份验证
+			"style": {
+				"navigationBarTitleText": "添加银行卡",
+				"navigationBarBackgroundColor":"#0db983",
+				"navigationBarTextStyle":"white"
+			}
+		},{
+			"path": "pages/money/addBankcard", //添加银行卡
+			"style": {
+				"navigationBarTitleText": "添加银行卡",
+				"navigationBarBackgroundColor":"#0db983",
+				"navigationBarTextStyle":"white"
+			}
+		},{
+			"path": "pages/money/addBankcardNext", //填写银行卡及身份信息
+			"style": {
+				"navigationBarTitleText": "填写银行卡及身份信息",
+				"navigationBarBackgroundColor":"#0db983",
+				"navigationBarTextStyle":"white"
+			}
+		},{
+			"path": "pages/money/agreement", //用户协议
+			"style": {
+				"navigationBarTitleText": "用户协议",
+				"navigationBarBackgroundColor":"#FFFFFF",
+				"navigationBarTextStyle":"black"
+			}
+		},{
+			"path": "pages/money/addSuccess", //添加银行卡成功
+			"style": {
+				"navigationBarTitleText": "添加银行卡",
+				"navigationBarBackgroundColor":"#0db983",
+				"navigationBarTextStyle":"white"
+			}
+		},{
+			"path": "pages/money/bank", //选择银行
+			"style": {
+				"navigationBarTitleText": "选择银行",
+				"navigationBarBackgroundColor":"#0db983",
+				"navigationBarTextStyle":"white"
+			}
+		},{
+			"path": "pages/money/banklist", //银行卡
+			"style": {
+				"navigationBarTitleText": "银行卡",
 				"navigationBarBackgroundColor":"#0db983",
 				"navigationBarTextStyle":"white"
 			}

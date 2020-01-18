@@ -58,7 +58,7 @@
 			//#endif
 			
 			//#ifdef APP-PLUS
-			this.winHeight = windowHeight - 56
+			this.winHeight = windowHeight - 60
 			//#endif
 			
  			if(!this.phones){

@@ -28,6 +28,7 @@
 						:data-phoneNumber="innerItem.phoneNumber"
 					>  
 						<image v-if="key == 'LS' && index ==0" src="../../static/image/icon_location.png" mode="" class="address"></image>
+						<image v-if="innerItem.icon" :src="innerItem.icon" mode=""></image>
 						{{innerItem.name}}
 					</view>
 				</view>
@@ -59,11 +60,11 @@
 		},
 		mounted(){
 			// #ifndef APP-PLUS
-			this.winHeight = uni.getSystemInfoSync().windowHeight - 49.50
+			this.winHeight = uni.getSystemInfoSync().windowHeight
 			//#endif
 			
 			//#ifdef APP-PLUS
-			this.winHeight = uni.getSystemInfoSync().windowHeight - 100
+			this.winHeight = uni.getSystemInfoSync().windowHeight
 			//#endif
 
 		},
@@ -132,7 +133,11 @@
 		height: 92upx;
 		background-color: #fff;
 		height: 100%;
-		
+		image{
+			width: 40upx;
+			height: 40upx;
+			margin-right: 20upx;
+		}
 	}
 	
 	.list-item >.list-item-phone{
@@ -155,6 +160,8 @@
 		color: #555;
 		padding: 0 30upx;
 		position: relative;
+		display: flex;
+		align-items: center;
 		/* border-bottom: 1px solid #e5e5e5; */
 	}
 	.list-item-phone:before{

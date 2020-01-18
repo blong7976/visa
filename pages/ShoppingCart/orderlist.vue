@@ -31,8 +31,9 @@
 							</view>
 							 <!-- 
 							  订单支付后的页面 @click="navTo(`/pages/ShoppingCart/order?type=${item.state}`)"
+							  进行中 @click="navTo('/pages/ShoppingCart/orderDetaile')"
 							  -->
-							<view class="body" @click="navTo('/pages/ShoppingCart/orderDetaile')">
+							<view class="body" @click="routerTo(item)">
 								<view class="h1">
 									<text class="name">日本一个月单次旅游签证</text>
 									<text class="price">100</text>
@@ -369,6 +370,21 @@
 			balancePlay(){
 				this.balanceModalShow = false
 				this.balancePSDModalShow = true
+			},
+			routerTo(item){
+				 // * 订单状态 state  
+				 // * 0：待提交资料 
+				 // * 1：待付款
+				 // * 2：已完成
+				 // * 3：退款成功
+				 // * 4：已取消   
+				 // 订单支付后的页面 @click="navTo(`/pages/ShoppingCart/order?type=${item.state}`)"
+				 // 进行中 @click="navTo('/pages/ShoppingCart/orderDetaile')"
+				if(item.state==0){
+					this.navTo('/pages/ShoppingCart/orderDetaile')
+				}else{
+					this.navTo(`/pages/ShoppingCart/order?type=${item.state}`)
+				}
 			}
 		}
 	}

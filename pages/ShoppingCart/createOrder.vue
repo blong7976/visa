@@ -214,8 +214,15 @@
 									支付方式
 								</view>
 								<view class="left" @click="handleSelectplayType">
-									<image src="../../static/image/icon_balance.png" mode="aspectFit"></image>余额支付
-									<text class="lb">(￥2986000)</text>
+									<block v-if="playType==0">
+										<image src="../../static/image/icon_balance.png" mode="aspectFit"></image>余额支付<text class="lb">(￥2986000)</text>
+									</block>
+									<block v-if="playType==1">
+										<image src="../../static/image/icon_wechatpay.png" mode="aspectFit"></image>微信支付
+									</block>
+									<block v-if="playType==2">
+										<image src="../../static/image/icon_alipay.png" mode="aspectFit"></image>支付宝支付
+									</block>
 								</view>
 							</view>
 						</view>	
@@ -302,7 +309,7 @@
 			},
 			submitOrder(){
 				this.currenttap = true
-				this.playTypeModalShow = true
+				this.balanceModalShow = true
 			}
 		}
 	}

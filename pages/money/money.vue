@@ -39,6 +39,10 @@
 					<text class="cell-tit">充值</text>
 					<text class="cell-more yticon icon-you"></text>
 				</view>
+				<view class="list-cell" @click="navTo('/pages/money/banklist')">
+					<text class="cell-tit">银行卡</text>
+					<text class="cell-more yticon icon-you"></text>
+				</view>
 				<view class="list-cell m-t"  @click="navTo('/pages/money/writeCode')">
 					<text class="cell-tit">支付密码</text>
 					<text class="cell-tip">未设置</text>
